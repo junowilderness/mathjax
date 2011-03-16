@@ -1,1 +1,6 @@
 name = MathJax
+description = LaTeX rendering using MathJax
+dependencies[] = libraries
+core = 7.x
+package = Other
+configure = admin/config/mathjax

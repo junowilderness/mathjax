@@ -20,6 +20,7 @@ function mathjax_drush_command() {
   return $items;
 }
 
+
 /**
  * Downloads
  */
@@ -39,6 +40,7 @@ function drush_mathjax_download() {
     drush_log(dt('Drush was unable to download the MathJax to @path.', array('@path' => $path)), 'error');
   }
 }
+
 
 /**
  * Implements drush_MODULE_post_COMMAND().

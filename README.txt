@@ -10,7 +10,7 @@ More details on MathJax TeX support on http://www.mathjax.org/resources/docs/?te
 
 INSTALLATION
 ============
-1. Download and install the "Libraries API" module: uncompress the "libraries" folder, copy it to your "modules" directory, and enable it under Administer >> Site building >> Modules.
+1. Download and install the "Libraries API" module: uncompress the "libraries" folder, copy it to your "modules" directory, and enable it (for instance using the Modules button in the toolbar).
 http://drupal.org/project/libraries
 
 2. Place the "mathjax" folder in your "modules" directory (e.g. sites/all/modules/mathjax).
@@ -21,7 +21,7 @@ http://drupal.org/project/libraries
      Rename it to "mathjax" (lower case).
 NB: Relying on libraries module to locate 'mathjax' folder allows you to place it in a site specific (e.g. sites/mysite/libraries) or default folder (e.g. sites/all/libraries). Site-specific versions are selected preferentially.
 
-3. Enable the MathJax module under Administer >> Site building >> Modules.
+3. Enable the MathJax module (for instance using the Modules button in the toolbar).
 
 4. Test it by adding a LaTeX formula between '$' in any node body (e.g. $2 + 2 = 4$).
 
@@ -45,6 +45,7 @@ http://www.mathjax.org/
 
 TO DO
 =====
+- add config link on config page (admin/config)
 - set mathjax parameters on admin page (size, source type, ...)
 - show source code in lightbox-like modules (set link attribute)
 - support MathML syntax

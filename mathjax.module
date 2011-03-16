@@ -1,24 +1,22 @@
 <?php
 // $Id$
 
-
 /**
 * Implementation of hook_init()
 */
 function mathjax_init() {
   global $base_path;
 
-  // Load Mathjax only on nodes defined in admin page
+  // Load Mathjax only on specified nodes
   if (mathjax_active() && variable_get('mathjax_enabled', TRUE)) {
-    drupal_add_js(drupal_get_path('module', 'mathjax') .'/mathjax.js', 'module');
+    drupal_add_js(drupal_get_path('module', 'mathjax') . '/mathjax.js', 'file');
   
     // pass variables to mathjax.js
     drupal_add_js(array(
       'mathjax' => array(
         'path' => $base_path . libraries_get_path('mathjax') . '/MathJax.js')), 'setting');
-  }
+   }
 }
-
 
 /**
  * Verify that MathJax should be active for the current URL.
@@ -46,10 +44,14 @@ function mathjax_active() {
 
 
 /**
- * Implementation of hook_perm().
+ * Implementation of hook_permission().
  */
-function mathjax_perm() {
-  return array('administer mathjax');
+function mathjax_permission() {
+  return array(
+    'administer mathjax' => array(
+      'title' => t('Administer MathJax'),
+    ),
+  );
 }
 
 
@@ -57,14 +59,15 @@ function mathjax_perm() {
  * Implementation of hook_menu().
  */
 function mathjax_menu() {
-  $items = array();
+  //$items = array();
 
-  $items['admin/settings/mathjax'] = array(
+  $items['admin/config/mathjax'] = array(
     'title' => 'MathJax',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('mathjax_global_settings'),
     'access arguments' => array('administer mathjax'),
     'description' => 'Configure the settings for MathJax.',
+   //  'type' => MENU_LOCAL_TASK,
   );
 
   return $items;
