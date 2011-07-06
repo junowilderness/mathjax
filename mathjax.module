@@ -2,8 +2,22 @@
 // $Id$
 
 /**
-* Implementation of hook_init()
-*/
+ * Implementation of hook_help().
+ */
+function mathjax_help($path, $arg) {
+  switch ($path) {
+    // Main module help for the mathjax module
+    case 'admin/settings/mathjax':
+      return t('MathJax allows you to include mathematics in your web pages, either using TeX and LaTeX notation, or as MathML, and you can even use both in the same document. Go to the !website for more information.', array('!website' => l(t('MathJax website'), 'http://www.mathjax.org/')));
+    
+    case 'admin/help#mathjax':
+      return '<p>' . t('MathJax allows you to include mathematics in your web pages, either using TeX and LaTeX notation, or as MathML, and you can even use both in the same document. Go to the !website for more information.', array('!website' => l(t('MathJax website'), 'http://www.mathjax.org/'))) . '</p>';
+  }
+}
+
+/**
+ * Implementation of hook_init().
+ */
 function mathjax_init() {
   global $base_path;
 
@@ -11,10 +25,11 @@ function mathjax_init() {
   if (mathjax_active() && variable_get('mathjax_enabled', TRUE)) {
     drupal_add_js(drupal_get_path('module', 'mathjax') . '/mathjax.js', 'file');
   
-    // pass variables to mathjax.js
+    // Pass variables to mathjax.js
+    $mathjax_path = variable_get('mathjax_use_cdn', TRUE) ? 'cdn' : $base_path . libraries_get_path('mathjax') . '/MathJax.js';
     drupal_add_js(array(
       'mathjax' => array(
-        'path' => $base_path . libraries_get_path('mathjax') . '/MathJax.js')), 'setting');
+        'path' => $mathjax_path)), 'setting');
    }
 }
 
@@ -66,21 +81,27 @@ function mathjax_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('mathjax_global_settings'),
     'access arguments' => array('administer mathjax'),
-    'description' => 'Configure the settings for MathJax.',
+    'description' => 'Configure global settings for MathJax.',
    //  'type' => MENU_LOCAL_TASK,
   );
-
   return $items;
 }
 
-
+/**
+ * Configure global settings for MathJax.
+ */
 function mathjax_global_settings() {
-  // Global settings
   $form['mathjax']['mathjax_enabled'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Global kill-switch'),
+    '#title' => t('Global switch'),
     '#default_value' => variable_get('mathjax_enabled', TRUE),
     '#description' => t('Check this box to enable MathJax for the entire site.'),
+  );
+  $form['mathjax']['mathjax_use_cdn'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use MathJax Content Delivery Network (CDN)'),
+    '#default_value' => variable_get('mathjax_use_cdn', TRUE),
+    '#description' => t('Check this box to load MathJax source from MathJax servers (recommended).'),
   );
   $form['mathjax']['active'] = array(
     '#type' => 'fieldset',

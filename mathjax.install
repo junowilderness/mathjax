@@ -20,13 +20,13 @@ function mathjax_uninstall() {
  * Implementation of hook_requirements().
  *
  * This hook will issue warnings if:
- * - The mathjax source files are not found
+ * - MathJax relies on local files and the source files are not found
  */
 function mathjax_requirements($phase) {
   $requirements = array();
   $t = get_t(); // Ensure translations don't break at install time
   
-  if ($phase == 'runtime') {
+  if ($phase == 'runtime' && !variable_get('mathjax_use_cdn', TRUE)) {
     $requirements['mathjax'] = array(
       'title' => $t('MathJax'),
       'value' => $t('Installed correctly'),

@@ -11,13 +11,21 @@
       // from http://www.mathjax.org/resources/docs/?dynamic.html
       var script = document.createElement("script");
       script.type = "text/javascript";
+
+  if (mathjax.path=='cdn') {
+    script.src  = "https://d3eoax9i5htok0.cloudfront.net/mathjax/1.1-latest/MathJax.js";
+    // script.src  = "http://cdn.mathjax.org/mathjax/latest/MathJax.js"; // unsafe clear connection
+  }
+  else {
       script.src = mathjax.path;
+  }
     
       var config = 'MathJax.Hub.Config({' +
-                     'extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js","TeX/noErrors.js","TeX/autobold.js"],' +
+                     'extensions: ["tex2jax.js"],' +
                      'jax: ["input/TeX","output/HTML-CSS"],' +
                      'tex2jax: {' +
-                       'inlineMath: [[\'$\',\'$\'], ["\\\\(","\\\\)"]],' +
+                       'inlineMath: [ [\'$\',\'$\'], [\'\\(\',\'\\)\'] ],' +  // look for $...$ and \(...\) as delimiters for inline math
+                       'displayMath: [ [\'$$\',\'$$\'], [\'\[\',\'\]\'] ],' + // look for $$...$$ and \[...\] as delimiters for display math
                        'processEscapes: true' +
                      '}' +
                    '});' +

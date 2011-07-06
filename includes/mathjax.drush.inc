@@ -33,7 +33,7 @@ function drush_mathjax_download() {
     $path = drush_get_context('DRUSH_DRUPAL_ROOT') . '/sites/all/libraries/mathjax';
   }
 
-  if (drush_shell_exec('mkdir ' . $path . '; svn co http://mathjax.svn.sourceforge.net/svnroot/mathjax/trunk/mathjax ' . $path . '; cd ' . $path . '; unzip fonts.zip')) {
+  if (drush_shell_exec('mkdir ' . $path . '; git clone git://github.com/mathjax/MathJax.git ' . $path)) {
     drush_log(dt('MathJax has been downloaded to @path.', array('@path' => $path)), 'success');
   }
   else {
