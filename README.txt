@@ -22,7 +22,7 @@ Using MathJax CDN - recommended
 
 1. Place the "mathjax" folder in your "modules" directory (e.g. sites/all/modules/mathjax).
 
-2. Enable the MathJax module under Administer >> Site building >> Modules.
+2. Enable the MathJax module under Administration >> Modules.
 
 3. Test it by adding a LaTeX formula between '$' in any node body (e.g. $2 + 2 = 4$).
 
@@ -47,9 +47,9 @@ NB: Relying on libraries module to locate 'mathjax' folder allows you to place
 it in a site specific (e.g. sites/mysite/libraries) or default folder
 (e.g. sites/all/libraries). Site-specific versions are selected preferentially.
 
-3. Enable the MathJax module under Administer >> Site building >> Modules.
+3. Enable the MathJax module under Administration >> Modules.
 
-4. Disable the "Use MathJax CDN" checkbox in Administer >> Site configuration >> MathJax
+4. Disable the "Use MathJax CDN" checkbox in Administration >> Configuration >> MathJax (in the Content Authoring section, admin/config/content/mathjax)
 
 5. Test it by adding a LaTeX formula between '$' in any node body (e.g. $2 + 2 = 4$).
 

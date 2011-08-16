@@ -76,14 +76,36 @@ function mathjax_permission() {
 function mathjax_menu() {
   //$items = array();
 
-  $items['admin/config/mathjax'] = array(
+  $items['admin/config/content/mathjax'] = array(
     'title' => 'MathJax',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('mathjax_global_settings'),
     'access arguments' => array('administer mathjax'),
     'description' => 'Configure global settings for MathJax.',
-   //  'type' => MENU_LOCAL_TASK,
+    'type' => MENU_NORMAL_ITEM,
   );
+  
+//   $items['admin/config/annotate'] = array( 
+//     'title' => 'Node annotation', 
+//     'description' => 'Adjust node annotation options.', 
+//     'position' => 'right', 
+//     'weight' => -5, 
+//     'page callback' => 'system_admin_menu_block_page', 
+//     'access arguments' => array('administer site configuration'), 
+//     'file' => 'system.admin.inc', 
+//     'file path' => drupal_get_path('module', 'system'), 
+//   ); 
+//    
+//   $items['admin/config/annotate/settings'] = array( 
+//     'title' => 'Annotation settings', 
+//     'description' => 'Change how annotations behave.', 
+//     'page callback' => 'drupal_get_form', 
+//     'page arguments' => array('annotate_admin_settings'), 
+//     'access arguments' => array('administer site configuration'), 
+//     'type' => MENU_NORMAL_ITEM, 
+//     'file' => 'annotate.admin.inc', 
+//   ); 
+
   return $items;
 }
 
