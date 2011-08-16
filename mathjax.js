@@ -24,8 +24,8 @@
                      'extensions: ["tex2jax.js"],' +
                      'jax: ["input/TeX","output/HTML-CSS"],' +
                      'tex2jax: {' +
-                       'inlineMath: [ [\'$\',\'$\'], [\'\\(\',\'\\)\'] ],' +  // look for $...$ and \(...\) as delimiters for inline math
-                       'displayMath: [ [\'$$\',\'$$\'], [\'\[\',\'\]\'] ],' + // look for $$...$$ and \[...\] as delimiters for display math
+                       'inlineMath: [ [\'$\',\'$\'], [\'\\\\(\',\'\\\\)\'] ],' +  // look for $...$ and \(...\) as delimiters for inline math
+                       'displayMath: [ [\'$$\',\'$$\'], [\'\\\\[\',\'\\\\]\'] ],' + // look for $$...$$ and \[...\] as delimiters for display math
                        'processEscapes: true' +
                      '}' +
                    '});' +
