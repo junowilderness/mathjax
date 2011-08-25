@@ -82,7 +82,6 @@ http://www.mathjax.org/
 
 TO DO
 =====
-- set mathjax parameters on admin page (size, source type, ...)
 - show source code in lightbox-like modules (set link attribute)
 - support MathML syntax
 

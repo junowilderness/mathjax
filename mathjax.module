@@ -1,6 +1,25 @@
 <?php
 // $Id$
 
+// Config variables
+global $defaultMathjaxConfigString;
+$defaultMathjaxConfigString = <<<MJ_CFG
+showProcessingMessages: false, 
+messageStyle: "simple",
+jax: ["input/TeX", "output/HTML-CSS"], 
+extensions: ["tex2jax.js","MathMenu.js","MathZoom.js"], 
+TeX: {
+  extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]
+}, 
+"HTML-CSS": { availableFonts: ["TeX"] },
+tex2jax: {
+  inlineMath: [ ["$","$"], ["\\\\(","\\\\)"] ],
+  displayMath: [ ["$$","$$"], ["\\\\[","\\\\]"] ],
+  processEscapes: true
+}
+MJ_CFG;
+
+
 /**
  * Implementation of hook_help().
  */
@@ -19,17 +38,23 @@ function mathjax_help($path, $arg) {
  * Implementation of hook_init().
  */
 function mathjax_init() {
-  global $base_path;
+  global $base_path, $defaultMathjaxConfigString;
 
   // Load Mathjax only on specified nodes
   if (mathjax_active() && variable_get('mathjax_enabled', TRUE)) {
-    drupal_add_js(drupal_get_path('module', 'mathjax') . '/mathjax.js', 'file');
-  
-    // Pass variables to mathjax.js
-    $mathjax_path = variable_get('mathjax_use_cdn', TRUE) ? 'cdn' : $base_path . libraries_get_path('mathjax') . '/MathJax.js';
-    drupal_add_js(array(
-      'mathjax' => array(
-        'path' => $mathjax_path)), 'setting');
+    // first configure Mathjax
+    $inline_script = '<script type="text/x-mathjax-config">';
+    $inline_script .= 'MathJax.Hub.Config({' . "\n" . variable_get('mathjax_config_string', $defaultMathjaxConfigString) . "\n" . '});' . "\n";
+    $inline_script .= '</script>';
+    $element = array(
+      '#type' => 'markup',
+      '#markup' => $inline_script,
+    );
+    drupal_add_html_head($element, 'mathjax-config');
+
+    // then load Mathjax
+    $mathjax_path = variable_get('mathjax_use_cdn', TRUE) ? 'https://d3eoax9i5htok0.cloudfront.net/mathjax/1.1-latest/MathJax.js' : $base_path . libraries_get_path('mathjax') . '/MathJax.js';
+    drupal_add_js($mathjax_path, 'external');
    }
 }
 
@@ -124,6 +149,13 @@ function mathjax_global_settings() {
     '#title' => t('Use MathJax Content Delivery Network (CDN)'),
     '#default_value' => variable_get('mathjax_use_cdn', TRUE),
     '#description' => t('Check this box to load MathJax source from MathJax servers (recommended).'),
+  );
+  global $defaultMathjaxConfigString;
+  $form['mathjax']['mathjax_config_string'] = array(
+    '#type' => 'textarea',
+    '#title' => t('MathJax configuration'),
+    '#default_value' => variable_get('mathjax_config_string', $defaultMathjaxConfigString),
+    '#description' => t("Enter a javascript configuration string as documented on " . l(t("MathJax help"), "http://www.mathjax.org/docs/1.1/options/index.html#configuration") . ". Use with caution as you may introduce javascript errors."),
   );
   $form['mathjax']['active'] = array(
     '#type' => 'fieldset',
