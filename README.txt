@@ -1,6 +1,6 @@
 MathJax is the up-to-date ajax framework to display math in HTML environment
 using LaTeX and MathML syntax. This module allows to activate MathJax-based
-LaTeX rendering on your drupal website. By default, MathJax source is loaded 
+LaTeX rendering on your drupal website. By default, MathJax source is loaded
 automatically from the internet using MathJax Content Delivery Network (CDN).
 
 Currently there is no settings available: MathJax is activated on all nodes and
@@ -85,11 +85,3 @@ TO DO
 - set mathjax parameters on admin page (size, source type, ...)
 - show source code in lightbox-like modules (set link attribute)
 - support MathML syntax
-
-
-CHANGE LOG
-==========
-7.x-1.0-beta4: Updates new MathJax CDN address.
-7.x-1.0-beta3: Stable release
-7.x-1.0-beta2: First release (Support of MathJax 1.1. MathJax source is loaded from MathJax CDN by default)
-7.x-1.0-beta1: First commit (not released).
