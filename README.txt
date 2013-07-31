@@ -89,5 +89,7 @@ TO DO
 
 CHANGE LOG
 ==========
+7.x-1.0-beta4: Updates new MathJax CDN address.
+7.x-1.0-beta3: Stable release
 7.x-1.0-beta2: First release (Support of MathJax 1.1. MathJax source is loaded from MathJax CDN by default)
 7.x-1.0-beta1: First commit (not released).

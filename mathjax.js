@@ -13,8 +13,7 @@
       script.type = "text/javascript";
 
   if (mathjax.path=='cdn') {
-    script.src  = "https://d3eoax9i5htok0.cloudfront.net/mathjax/1.1-latest/MathJax.js";
-    // script.src  = "http://cdn.mathjax.org/mathjax/latest/MathJax.js"; // unsafe clear connection
+    script.src  = "https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
   }
   else {
       script.src = mathjax.path;
