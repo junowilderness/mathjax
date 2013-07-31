@@ -1,9 +1,7 @@
 <?php
-// $Id$
-
 /**
  * @file
- * Drush integration for the mathjax module.
+ * MathJax module drush integration.
  */
 
 /**
@@ -22,7 +20,7 @@ function mathjax_drush_command() {
 
 
 /**
- * Downloads
+ * Downloads MathJax to the libraries directory.
  */
 function drush_mathjax_download() {
   $args = func_get_args();

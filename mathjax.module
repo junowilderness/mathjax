@@ -1,43 +1,47 @@
 <?php
-// $Id$
+/**
+ * @file
+ * MathJax module.
+ */
 
 /**
- * Implementation of hook_help().
+ * Implements hook_help().
  */
 function mathjax_help($path, $arg) {
   switch ($path) {
-    // Main module help for the mathjax module
+    // Main module help for the mathjax module.
     case 'admin/settings/mathjax':
       return t('MathJax allows you to include mathematics in your web pages, either using TeX and LaTeX notation, or as MathML, and you can even use both in the same document. Go to the !website for more information.', array('!website' => l(t('MathJax website'), 'http://www.mathjax.org/')));
-    
+
     case 'admin/help#mathjax':
       return '<p>' . t('MathJax allows you to include mathematics in your web pages, either using TeX and LaTeX notation, or as MathML, and you can even use both in the same document. Go to the !website for more information.', array('!website' => l(t('MathJax website'), 'http://www.mathjax.org/'))) . '</p>';
   }
 }
 
 /**
- * Implementation of hook_init().
+ * Implements hook_init().
  */
 function mathjax_init() {
   global $base_path;
 
-  // Load Mathjax only on specified nodes
+  // Load Mathjax only on specified nodes.
   if (mathjax_active() && variable_get('mathjax_enabled', TRUE)) {
     drupal_add_js(drupal_get_path('module', 'mathjax') . '/mathjax.js', 'file');
-  
+
     // Pass variables to mathjax.js
     $mathjax_path = variable_get('mathjax_use_cdn', TRUE) ? 'cdn' : $base_path . libraries_get_path('mathjax') . '/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
     drupal_add_js(array(
       'mathjax' => array(
         'path' => $mathjax_path)), 'setting');
-   }
+  }
 }
 
 /**
  * Verify that MathJax should be active for the current URL.
+ *
  * (taken from Block module)
  *
- * @return
+ * @return bool
  *   TRUE if MathJax should be active for the current page.
  */
 function mathjax_active() {
@@ -47,7 +51,7 @@ function mathjax_active() {
   $page_match = drupal_match_path($path, $pages);
   if ($path != $_GET['q']) {
     $page_match = $page_match || drupal_match_path($_GET['q'], $pages);
-  }  
+  }
 
   if (variable_get('mathjax_active_type', 'disable') == 'disable') {
     return !$page_match;
@@ -59,7 +63,7 @@ function mathjax_active() {
 
 
 /**
- * Implementation of hook_permission().
+ * Implements hook_permission().
  */
 function mathjax_permission() {
   return array(
@@ -71,10 +75,9 @@ function mathjax_permission() {
 
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_menu().
  */
 function mathjax_menu() {
-  //$items = array();
 
   $items['admin/config/content/mathjax'] = array(
     'title' => 'MathJax',
@@ -84,27 +87,6 @@ function mathjax_menu() {
     'description' => 'Configure global settings for MathJax.',
     'type' => MENU_NORMAL_ITEM,
   );
-  
-//   $items['admin/config/annotate'] = array( 
-//     'title' => 'Node annotation', 
-//     'description' => 'Adjust node annotation options.', 
-//     'position' => 'right', 
-//     'weight' => -5, 
-//     'page callback' => 'system_admin_menu_block_page', 
-//     'access arguments' => array('administer site configuration'), 
-//     'file' => 'system.admin.inc', 
-//     'file path' => drupal_get_path('module', 'system'), 
-//   ); 
-//    
-//   $items['admin/config/annotate/settings'] = array( 
-//     'title' => 'Annotation settings', 
-//     'description' => 'Change how annotations behave.', 
-//     'page callback' => 'drupal_get_form', 
-//     'page arguments' => array('annotate_admin_settings'), 
-//     'access arguments' => array('administer site configuration'), 
-//     'type' => MENU_NORMAL_ITEM, 
-//     'file' => 'annotate.admin.inc', 
-//   ); 
 
   return $items;
 }
@@ -141,7 +123,13 @@ function mathjax_global_settings() {
     '#type' => 'textarea',
     '#title' => t('Pages'),
     '#default_value' => variable_get('mathjax_pages', "admin*\nnode/add/*\nnode/*/edit"),
-    '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
+    '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.",
+        array(
+          '%blog' => 'blog',
+          '%blog-wildcard' => 'blog/*',
+          '%front' => '<front>',
+        )
+    ),
   );
 
   return system_settings_form($form);
