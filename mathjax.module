@@ -26,7 +26,7 @@ function mathjax_init() {
     drupal_add_js(drupal_get_path('module', 'mathjax') . '/mathjax.js', 'file');
   
     // Pass variables to mathjax.js
-    $mathjax_path = variable_get('mathjax_use_cdn', TRUE) ? 'cdn' : $base_path . libraries_get_path('mathjax') . '/MathJax.js';
+    $mathjax_path = variable_get('mathjax_use_cdn', TRUE) ? 'cdn' : $base_path . libraries_get_path('mathjax') . '/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
     drupal_add_js(array(
       'mathjax' => array(
         'path' => $mathjax_path)), 'setting');
