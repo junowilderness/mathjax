@@ -53,7 +53,7 @@ function mathjax_init() {
     drupal_add_html_head($element, 'mathjax-config');
 
     // then load Mathjax
-    $mathjax_path = variable_get('mathjax_use_cdn', TRUE) ? 'https://d3eoax9i5htok0.cloudfront.net/mathjax/1.1-latest/MathJax.js' : $base_path . libraries_get_path('mathjax') . '/MathJax.js';
+    $mathjax_path = variable_get('mathjax_use_cdn', TRUE) ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' : $base_path . libraries_get_path('mathjax') . '/MathJax.js';
     drupal_add_js($mathjax_path, 'external');
    }
 }
