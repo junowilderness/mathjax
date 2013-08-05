@@ -51,7 +51,7 @@ function mathjax_init() {
     }
     else {
       // Use the local library.
-    drupal_add_js($base_path . libraries_get_path('mathjax') . '/MathJax.js?config=TeX-AMS-MML_HTMLorMML');
+    drupal_add_js($base_path . libraries_get_path('mathjax') . '/MathJax.js?config=TeX-AMS-MML_HTMLorMML', 'external');
     }
   }
 }
