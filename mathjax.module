@@ -4,6 +4,8 @@
  * MathJax module.
  */
 
+global $_mathjax_default_cdn_url;
+$_mathjax_default_cdn_url = 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
 global $_mathjax_default_config_string;
 $_mathjax_default_config_string = <<<EOD
 <script type="text/x-mathjax-config">
@@ -38,6 +40,7 @@ function mathjax_help($path, $arg) {
 function mathjax_init() {
   global $base_url;
   global $base_path;
+  global $_mathjax_default_cdn_url;
   global $_mathjax_default_config_string;
 
   // Load Mathjax only on specified nodes.
@@ -48,7 +51,8 @@ function mathjax_init() {
     );
     drupal_add_html_head($config, 'mathjax-config');
     if (variable_get('mathjax_use_cdn', TRUE)) {
-      drupal_add_js('https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML', 'external');
+      $cdn_url = variable_get('mathjax_cdn_url', $_mathjax_default_cdn_url);
+      drupal_add_js($cdn_url, 'external');
     }
     else {
       // Use the local library.
@@ -124,6 +128,7 @@ function mathjax_menu() {
  */
 function mathjax_global_settings() {
   global $_mathjax_default_config_string;
+  global $_mathjax_default_cdn_url;
   $form['mathjax']['mathjax_enabled'] = array(
     '#type' => 'checkbox',
     '#title' => t('Global switch'),
@@ -134,7 +139,13 @@ function mathjax_global_settings() {
     '#type' => 'checkbox',
     '#title' => t('Use MathJax Content Delivery Network (CDN)'),
     '#default_value' => variable_get('mathjax_use_cdn', TRUE),
-    '#description' => t('Check this box to load MathJax source from MathJax servers (recommended).'),
+    '#description' => t('Check this box to load MathJax source from MathJax servers (recommended) or from the link you can provide below.'),
+  );
+  $form['mathjax']['mathjax_cdn_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('MathJax CDN url'),
+    '#default_value' => variable_get('mathjax_cdn_url', $_mathjax_default_cdn_url),
+    '#description' => t("Enter the Mathjax CDN url here or leave it unchanged to use the one provided by <a target='_blank' href='@mathjax-homepage'>www.mathjax.org</a>.", array('@mathjax-homepage' => 'http://www.mathjax.org')),
   );
   $form['mathjax']['mathjax_config_string'] = array(
     '#type' => 'textarea',
@@ -142,7 +153,6 @@ function mathjax_global_settings() {
     '#default_value' => variable_get('mathjax_config_string', $_mathjax_default_config_string),
     '#description' => t("Enter a javascript configuration string as documented on  <a target='_blank' href='@mathjax-help'>MathJax help</a> Use with caution as you may introduce javascript errors.", array('@mathjax-help' => 'http://www.mathjax.org/docs/1.1/options/index.html#configuration')),
   );
-
   $form['mathjax']['active'] = array(
     '#type' => 'fieldset',
     '#title' => t('Page specific activation settings'),
