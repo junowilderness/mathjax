@@ -8,7 +8,6 @@ global $_mathjax_default_cdn_url;
 $_mathjax_default_cdn_url = 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
 global $_mathjax_default_config_string;
 $_mathjax_default_config_string = <<<EOD
-<script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   extensions: ["tex2jax.js"],
   jax: ["input/TeX","output/HTML-CSS"],
@@ -17,7 +16,6 @@ MathJax.Hub.Config({
     processEscapes: true
   }
 });
-</script>
 EOD;
 
 /**
@@ -47,7 +45,7 @@ function mathjax_init() {
   if (mathjax_active() && variable_get('mathjax_enabled', TRUE)) {
     $config = array(
       '#type' => 'markup',
-      '#markup' => variable_get('mathjax_config_string', $_mathjax_default_config_string),
+      '#markup' => '<script type="text/x-mathjax-config">' . variable_get('mathjax_config_string', $_mathjax_default_config_string) . '</script>',
     );
     drupal_add_html_head($config, 'mathjax-config');
     if (variable_get('mathjax_use_cdn', TRUE)) {
