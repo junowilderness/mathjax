@@ -6,7 +6,7 @@
  */
 
 /**
- * Default test case for the module.
+ * Configuration test case for the module.
  */
 class MathjaxConfigTestCase extends DrupalWebTestCase {
 
@@ -29,7 +29,7 @@ class MathjaxConfigTestCase extends DrupalWebTestCase {
   }
 
   /**
-   * Test the give/public form.
+   * Test the configuration data.
    */
   public function testConfig() {
     global $_mathjax_default_cdn_url;
