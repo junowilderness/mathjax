@@ -149,7 +149,7 @@ function mathjax_global_settings() {
     '#type' => 'textarea',
     '#title' => t('MathJax configuration'),
     '#default_value' => variable_get('mathjax_config_string', $_mathjax_default_config_string),
-    '#description' => t("Enter a javascript configuration string as documented on  <a target='_blank' href='@mathjax-help'>MathJax help</a> Use with caution as you may introduce javascript errors.", array('@mathjax-help' => 'http://www.mathjax.org/docs/1.1/options/index.html#configuration')),
+    '#description' => t("Enter a javascript configuration string as documented on  <a target='_blank' href='@mathjax-help'>MathJax help</a> Use with caution as you may introduce javascript errors.", array('@mathjax-help' => 'http://docs.mathjax.org/en/latest/')),
   );
   $form['mathjax']['active'] = array(
     '#type' => 'fieldset',
