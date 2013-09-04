@@ -4,3 +4,4 @@ core = 7.x
 configure = admin/config/content/mathjax
 dependencies[] = libraries
 files[] = tests/mathjax_config.test
+files[] = tests/mathjax_admin.test
