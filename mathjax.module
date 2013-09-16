@@ -5,7 +5,7 @@
  */
 
 global $_mathjax_default_cdn_url;
-$_mathjax_default_cdn_url = 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+$_mathjax_default_cdn_url = 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js';
 global $_mathjax_default_config_string;
 $_mathjax_default_config_string = <<<EOD
 MathJax.Hub.Config({
@@ -14,7 +14,10 @@ MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [ ['$','$'], ['\\\\(','\\\\)'] ],
     processEscapes: true
-  }
+  },
+  showProcessingMessages: false,
+  messageStyle: "none",
+  elements: ['mathjax']
 });
 EOD;
 
@@ -56,7 +59,7 @@ function mathjax_init() {
       // Use the local library.
       $library = DRUPAL_ROOT . $base_path . libraries_get_path('mathjax') . '/MathJax.js';
       if (file_exists($library)) {
-        drupal_add_js($base_path . libraries_get_path('mathjax') . '/MathJax.js?config=TeX-AMS-MML_HTMLorMML', 'external');
+        drupal_add_js($base_path . libraries_get_path('mathjax') . '/MathJax.js', 'external');
       }
       else {
         // Throw an error.
@@ -91,6 +94,59 @@ function mathjax_active() {
   }
 }
 
+/**
+ * Implements hook_filter_info().
+ *
+ * Defines a MathJax filter.
+ */
+function mathjax_filter_info() {
+  $filters['filter_mathjax'] = array(
+    'title' => t('MathJax Filter'),
+    'description' => t('Replaces designated text with MathJax symbols.'),
+    'process callback'  => '_filter_mathjax_process',
+    'default settings' => array(
+      'filter_mathjax' => 'foo',
+    ),
+    'settings callback' => '_filter_mathjax_settings',
+    'tips callback' => '_filter_mathjax_tips',
+  );
+  return $filters;
+}
+
+/**
+ * Settings callback for the mathjax filter.
+ */
+function _filter_mathjax_settings($form, $form_state, $filter, $format, $defaults) {
+  $settings['filter_mathjax'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Substitution string'),
+    '#default_value' => isset($filter->settings['filter_mathjax']) ? $filter->settings['filter_mathjax'] : $defaults['filter_mathjax'],
+    '#description' => t('The string to substitute for "foo" everywhere in the text.'),
+  );
+  return $settings;
+}
+
+/**
+ * Mathjax filter process callback.
+ */
+function _filter_mathjax_process($text, $filter, $format) {
+  $replacement = isset($filter->settings['filter_mathjax']) ? $filter->settings['filter_mathjax'] : 'bar';
+  return '<div id="mathjax">' . $text . '</div>';
+}
+
+/**
+ * Filter tips callback for the mathjax filter.
+ */
+function _filter_mathjax_tips($filter, $format, $long = FALSE) {
+  $replacement = isset($filter->settings['filter_mathjax']) ? $filter->settings['filter_mathjax'] : 'bar';
+  if (!$long) {
+    // This string will be shown in the content add/edit form
+    return t('<em>foo</em> replaced with %replacement.', array('%replacement' => $replacement));
+  }
+  else {
+    return t('Every instance of "foo" in the input text will be replaced with a configurable value. You can configure this value and put whatever you want there. The replacement value is "%replacement".', array('%replacement' => $replacement));
+  }
+}
 
 /**
  * Implements hook_permission().
