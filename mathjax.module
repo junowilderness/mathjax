@@ -45,8 +45,8 @@ function mathjax_init() {
   global $_mathjax_default_cdn_url;
   global $_mathjax_default_config_string;
 
-  // Load Mathjax only on specified nodes.
-  if (mathjax_active() && variable_get('mathjax_enabled', TRUE)) {
+  // Load Mathjax.
+  if (variable_get('mathjax_enabled', TRUE)) {
     $config = array(
       '#type' => 'markup',
       '#markup' => '<script type="text/x-mathjax-config">' . variable_get('mathjax_config_string', $_mathjax_default_config_string) . '</script>',
@@ -71,31 +71,6 @@ function mathjax_init() {
 }
 
 /**
- * Verify that MathJax should be active for the current URL.
- *
- * (taken from Block module)
- *
- * @return bool
- *   TRUE if MathJax should be active for the current page.
- */
-function mathjax_active() {
-  $pages = variable_get('mathjax_pages', "admin*\nnode/add/*\nnode/*/edit");
-  $path = drupal_strtolower(drupal_get_path_alias($_GET['q']));
-  // Compare the lowercase internal and lowercase path alias (if any).
-  $page_match = drupal_match_path($path, $pages);
-  if ($path != $_GET['q']) {
-    $page_match = $page_match || drupal_match_path($_GET['q'], $pages);
-  }
-
-  if (variable_get('mathjax_active_type', 'disable') == 'disable') {
-    return !$page_match;
-  }
-  else {
-    return $page_match;
-  }
-}
-
-/**
  * Implements hook_filter_info().
  *
  * Defines a MathJax filter.
@@ -103,11 +78,8 @@ function mathjax_active() {
 function mathjax_filter_info() {
   $filters['filter_mathjax'] = array(
     'title' => t('MathJax Filter'),
-    'description' => t('Replaces designated text with MathJax symbols.'),
+    'description' => t('Mathematics inside the <a href="@url">configured delimiters</a> is rendered by MathJax.', array('@url' => url('admin/config/content/mathjax'))),
     'process callback'  => '_filter_mathjax_process',
-    'default settings' => array(
-      'filter_mathjax' => 'foo',
-    ),
     'settings callback' => '_filter_mathjax_settings',
     'tips callback' => '_filter_mathjax_tips',
   );
@@ -115,23 +87,9 @@ function mathjax_filter_info() {
 }
 
 /**
- * Settings callback for the mathjax filter.
- */
-function _filter_mathjax_settings($form, $form_state, $filter, $format, $defaults) {
-  $settings['filter_mathjax'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Substitution string'),
-    '#default_value' => isset($filter->settings['filter_mathjax']) ? $filter->settings['filter_mathjax'] : $defaults['filter_mathjax'],
-    '#description' => t('The string to substitute for "foo" everywhere in the text.'),
-  );
-  return $settings;
-}
-
-/**
  * Mathjax filter process callback.
  */
 function _filter_mathjax_process($text, $filter, $format) {
-  $replacement = isset($filter->settings['filter_mathjax']) ? $filter->settings['filter_mathjax'] : 'bar';
   return '<div class="tex2jax">' . $text . '</div>';
 }
 
@@ -139,14 +97,11 @@ function _filter_mathjax_process($text, $filter, $format) {
  * Filter tips callback for the mathjax filter.
  */
 function _filter_mathjax_tips($filter, $format, $long = FALSE) {
-  $replacement = isset($filter->settings['filter_mathjax']) ? $filter->settings['filter_mathjax'] : 'bar';
-  if (!$long) {
-    // This string will be shown in the content add/edit form
-    return t('<em>foo</em> replaced with %replacement.', array('%replacement' => $replacement));
-  }
-  else {
-    return t('Every instance of "foo" in the input text will be replaced with a configurable value. You can configure this value and put whatever you want there. The replacement value is "%replacement".', array('%replacement' => $replacement));
-  }
+  return t('Mathematics inside the <a href="@url">configured delimiters</a> is
+    rendered by MathJax. The default math delimiters are $$...$$ and \[...\] for
+    displayed mathematics, and $...$ and \(...\) for in-line mathematics.',
+      array('@url' => url('admin/config/content/mathjax'))
+  );
 }
 
 /**
@@ -186,7 +141,7 @@ function mathjax_global_settings() {
   global $_mathjax_default_cdn_url;
   $form['mathjax']['mathjax_enabled'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Global switch'),
+    '#title' => t('Enable MathJax'),
     '#default_value' => variable_get('mathjax_enabled', TRUE),
     '#description' => t('Check this box to enable MathJax for the entire site.'),
   );

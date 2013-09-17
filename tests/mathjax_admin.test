@@ -42,7 +42,7 @@ class MathjaxAdminTestCase extends DrupalWebTestCase {
     $this->drupalLogin($this->administrator);
     $this->drupalGet('admin/config/content/mathjax');
     $this->assertTitle('MathJax | Drupal', 'Page title set.');
-    $this->assertText('Global switch');
+    $this->assertText('Enable MathJax');
     $this->assertText('Check this box to enable MathJax for the entire site.');
     $this->assertFieldChecked('edit-mathjax-enabled', 'MathJax is enabled by default.');
     $this->assertText('MathJax CDN url');
