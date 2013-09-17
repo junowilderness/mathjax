@@ -14,10 +14,11 @@ MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [ ['$','$'], ['\\\\(','\\\\)'] ],
     processEscapes: true
+    processClass: "tex2jax",
+    ignoreClass: "html"
   },
   showProcessingMessages: false,
-  messageStyle: "none",
-  elements: ['mathjax']
+  messageStyle: "none"
 });
 EOD;
 
@@ -131,7 +132,7 @@ function _filter_mathjax_settings($form, $form_state, $filter, $format, $default
  */
 function _filter_mathjax_process($text, $filter, $format) {
   $replacement = isset($filter->settings['filter_mathjax']) ? $filter->settings['filter_mathjax'] : 'bar';
-  return '<div id="mathjax">' . $text . '</div>';
+  return '<div class="tex2jax">' . $text . '</div>';
 }
 
 /**
