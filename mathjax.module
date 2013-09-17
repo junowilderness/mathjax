@@ -5,7 +5,7 @@
  */
 
 global $_mathjax_default_cdn_url;
-$_mathjax_default_cdn_url = 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js';
+$_mathjax_default_cdn_url = 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
 global $_mathjax_default_config_string;
 $_mathjax_default_config_string = <<<EOD
 MathJax.Hub.Config({
@@ -60,7 +60,7 @@ function mathjax_init() {
       // Use the local library.
       $library = DRUPAL_ROOT . $base_path . libraries_get_path('mathjax') . '/MathJax.js';
       if (file_exists($library)) {
-        drupal_add_js($base_path . libraries_get_path('mathjax') . '/MathJax.js', 'external');
+        drupal_add_js($base_path . libraries_get_path('mathjax') . '/MathJax.js?config=TeX-AMS-MML_HTMLorMML', 'external');
       }
       else {
         // Throw an error.
