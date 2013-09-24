@@ -29,10 +29,10 @@ function mathjax_help($path, $arg) {
   switch ($path) {
     // Main module help for the mathjax module.
     case 'admin/settings/mathjax':
-      return t('MathJax allows you to include mathematics in your web pages, either using TeX and LaTeX notation, or as MathML, and you can even use both in the same document. Go to the !website for more information.', array('!website' => l(t('MathJax website'), 'http://www.mathjax.org/')));
+      return t('MathJax allows you to include mathematics in your web pages, either using TeX and LaTeX notation, or as MathML, and you can even use both in the same document. Go to the <a href="@url">MathJax website</a> for more information.', array('@url' => url('http://www.mathjax.org/')));
 
     case 'admin/help#mathjax':
-      return '<p>' . t('MathJax allows you to include mathematics in your web pages, either using TeX and LaTeX notation, or as MathML, and you can even use both in the same document. Go to the !website for more information.', array('!website' => l(t('MathJax website'), 'http://www.mathjax.org/'))) . '</p>';
+      return '<p>' . t('MathJax allows you to include mathematics in your web pages, either using TeX and LaTeX notation, or as MathML, and you can even use both in the same document. Go to the <a href="@url">MathJax website</a> for more information.', array('@url' => url('http://www.mathjax.org/'))) . '</p>';
   }
 }
 
