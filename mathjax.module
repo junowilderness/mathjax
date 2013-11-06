@@ -4,23 +4,37 @@
  * MathJax module.
  */
 
-global $_mathjax_default_cdn_url;
-$_mathjax_default_cdn_url = 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
-global $_mathjax_default_config_string;
-$_mathjax_default_config_string = <<<EOD
+/**
+ * Default values for MathJax configuration. May be overridden in the config.
+ *
+ * @param $parameter
+ *   Decides which default config to fetch. Either 'cdn url' or 'config string'.
+ * @return
+ *   The default configuration.
+ */
+function mathjax_default($parameter) {
+  switch ($parameter) {
+    case 'cdn url':
+      return 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    case 'config string':
+      return "
 MathJax.Hub.Config({
-  extensions: ["tex2jax.js"],
-  jax: ["input/TeX","output/HTML-CSS"],
+  extensions: ['tex2jax.js'],
+  jax: ['input/TeX','output/HTML-CSS'],
   tex2jax: {
     inlineMath: [ ['$','$'], ['\\\\(','\\\\)'] ],
     processEscapes: true,
-    processClass: "tex2jax",
-    ignoreClass: "html"
+    processClass: 'tex2jax',
+    ignoreClass: 'html'
   },
   showProcessingMessages: false,
-  messageStyle: "none"
+  messageStyle: 'none'
 });
-EOD;
+";
+    default :
+      return;
+  }
+}
 
 /**
  * Implements hook_help().
@@ -42,18 +56,16 @@ function mathjax_help($path, $arg) {
 function mathjax_init() {
   global $base_url;
   global $base_path;
-  global $_mathjax_default_cdn_url;
-  global $_mathjax_default_config_string;
 
   // Load Mathjax.
   if (variable_get('mathjax_enabled', TRUE)) {
     $config = array(
       '#type' => 'markup',
-      '#markup' => '<script type="text/x-mathjax-config">' . variable_get('mathjax_config_string', $_mathjax_default_config_string) . '</script>',
+      '#markup' => '<script type="text/x-mathjax-config">' . variable_get('mathjax_config_string', mathjax_default('config string')) . '</script>',
     );
     drupal_add_html_head($config, 'mathjax-config');
     if (variable_get('mathjax_use_cdn', TRUE)) {
-      $cdn_url = variable_get('mathjax_cdn_url', $_mathjax_default_cdn_url);
+      $cdn_url = variable_get('mathjax_cdn_url', mathjax_default('cdn url'));
       drupal_add_js($cdn_url, 'external');
     }
     else {
@@ -137,8 +149,6 @@ function mathjax_menu() {
  * Configure global settings for MathJax.
  */
 function mathjax_global_settings() {
-  global $_mathjax_default_config_string;
-  global $_mathjax_default_cdn_url;
   $form['mathjax']['mathjax_enabled'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable MathJax'),
@@ -154,13 +164,13 @@ function mathjax_global_settings() {
   $form['mathjax']['mathjax_cdn_url'] = array(
     '#type' => 'textfield',
     '#title' => t('MathJax CDN url'),
-    '#default_value' => variable_get('mathjax_cdn_url', $_mathjax_default_cdn_url),
+    '#default_value' => variable_get('mathjax_cdn_url', mathjax_default('cdn url')),
     '#description' => t("Enter the Mathjax CDN url here or leave it unchanged to use the one provided by <a target='_blank' href='@mathjax-homepage'>www.mathjax.org</a>.", array('@mathjax-homepage' => 'http://www.mathjax.org')),
   );
   $form['mathjax']['mathjax_config_string'] = array(
     '#type' => 'textarea',
     '#title' => t('MathJax configuration'),
-    '#default_value' => variable_get('mathjax_config_string', $_mathjax_default_config_string),
+    '#default_value' => variable_get('mathjax_config_string', mathjax_default('config string')),
     '#description' => t("Enter a javascript configuration string as documented on  <a target='_blank' href='@mathjax-help'>MathJax help</a> Use with caution as you may introduce javascript errors.", array('@mathjax-help' => 'http://docs.mathjax.org/en/latest/')),
   );
   $form['mathjax']['active'] = array(

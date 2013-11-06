@@ -32,13 +32,11 @@ class MathjaxConfigTestCase extends DrupalWebTestCase {
    * Test the configuration data.
    */
   public function testConfig() {
-    global $_mathjax_default_cdn_url;
-    global $_mathjax_default_config_string;
     $path = '<front>';
 
     // Initial text on form load.
     $this->drupalGet($path);
-    $this->assertRaw($_mathjax_default_cdn_url, 'Default CDN URL found.');
-    $this->assertRaw('<script type="text/x-mathjax-config">' . $_mathjax_default_config_string . '</script>', 'Default configuration string found.');
+    $this->assertRaw(mathjax_default('cdn url'), 'Default CDN URL found.');
+    $this->assertRaw('<script type="text/x-mathjax-config">' . mathjax_default('config string') . '</script>', 'Default configuration string found.');
   }
 }

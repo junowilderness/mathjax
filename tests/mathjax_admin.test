@@ -36,8 +36,6 @@ class MathjaxAdminTestCase extends DrupalWebTestCase {
    * Test the configuration data.
    */
   public function testAdmin() {
-    global $_mathjax_default_cdn_url;
-    global $_mathjax_default_config_string;
 
     $this->drupalLogin($this->administrator);
     $this->drupalGet('admin/config/content/mathjax');
@@ -46,10 +44,10 @@ class MathjaxAdminTestCase extends DrupalWebTestCase {
     $this->assertText('Check this box to enable MathJax for the entire site.');
     $this->assertFieldChecked('edit-mathjax-enabled', 'MathJax is enabled by default.');
     $this->assertText('MathJax CDN url');
-    $this->assertFieldByName('mathjax_cdn_url', $_mathjax_default_cdn_url, 'Default CDN config string found.');
+    $this->assertFieldByName('mathjax_cdn_url', mathjax_default('cdn url'), 'Default CDN config string found.');
     $this->assertText('Enter the Mathjax CDN url here or leave it unchanged to use the one provided by www.mathjax.org.');
     $this->assertText('MathJax configuration');
-    $this->assertFieldByName('mathjax_config_string', $_mathjax_default_config_string, 'Found default config string.');
+    $this->assertFieldByName('mathjax_config_string', mathjax_default('config string'), 'Found default config string.');
     $this->assertText('Enter a javascript configuration string as documented on');
   }
 }
