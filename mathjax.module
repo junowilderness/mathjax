@@ -58,26 +58,24 @@ function mathjax_init() {
   global $base_path;
 
   // Load Mathjax.
-  if (variable_get('mathjax_enabled', TRUE)) {
-    $config = array(
-      '#type' => 'markup',
-      '#markup' => '<script type="text/x-mathjax-config">' . variable_get('mathjax_config_string', mathjax_default('config string')) . '</script>',
-    );
-    drupal_add_html_head($config, 'mathjax-config');
-    if (variable_get('mathjax_use_cdn', TRUE)) {
-      $cdn_url = variable_get('mathjax_cdn_url', mathjax_default('cdn url'));
-      drupal_add_js($cdn_url, 'external');
+  $config = array(
+    '#type' => 'markup',
+    '#markup' => '<script type="text/x-mathjax-config">' . variable_get('mathjax_config_string', mathjax_default('config string')) . '</script>',
+  );
+  drupal_add_html_head($config, 'mathjax-config');
+  if (variable_get('mathjax_use_cdn', TRUE)) {
+    $cdn_url = variable_get('mathjax_cdn_url', mathjax_default('cdn url'));
+    drupal_add_js($cdn_url, 'external');
+  }
+  else {
+    // Use the local library.
+    $library = DRUPAL_ROOT . $base_path . libraries_get_path('mathjax') . '/MathJax.js';
+    if (file_exists($library)) {
+      drupal_add_js($base_path . libraries_get_path('mathjax') . '/MathJax.js?config=TeX-AMS-MML_HTMLorMML', 'external');
     }
     else {
-      // Use the local library.
-      $library = DRUPAL_ROOT . $base_path . libraries_get_path('mathjax') . '/MathJax.js';
-      if (file_exists($library)) {
-        drupal_add_js($base_path . libraries_get_path('mathjax') . '/MathJax.js?config=TeX-AMS-MML_HTMLorMML', 'external');
-      }
-      else {
-        // Throw an error.
-        drupal_set_message('MathJax is configured to load from a local library, but could not find the files. Check the module settings.', 'error');
-      }
+      // Throw an error.
+      drupal_set_message('MathJax is configured to load from a local library, but could not find the files. Check the module settings.', 'error');
     }
   }
 }
@@ -149,12 +147,6 @@ function mathjax_menu() {
  * Configure global settings for MathJax.
  */
 function mathjax_global_settings() {
-  $form['mathjax']['mathjax_enabled'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Enable MathJax'),
-    '#default_value' => variable_get('mathjax_enabled', TRUE),
-    '#description' => t('Check this box to enable MathJax for the entire site.'),
-  );
   $form['mathjax']['mathjax_use_cdn'] = array(
     '#type' => 'checkbox',
     '#title' => t('Use MathJax Content Delivery Network (CDN)'),
@@ -171,32 +163,7 @@ function mathjax_global_settings() {
     '#type' => 'textarea',
     '#title' => t('MathJax configuration'),
     '#default_value' => variable_get('mathjax_config_string', mathjax_default('config string')),
-    '#description' => t("Enter a javascript configuration string as documented on  <a target='_blank' href='@mathjax-help'>MathJax help</a> Use with caution as you may introduce javascript errors.", array('@mathjax-help' => 'http://docs.mathjax.org/en/latest/')),
+    '#description' => t("Enter a JavaScript configuration string as documented on  <a target='_blank' href='@mathjax-help'>MathJax help</a>. Use with caution as you may introduce JavaScript errors.", array('@mathjax-help' => 'http://docs.mathjax.org/en/latest/')),
   );
-  $form['mathjax']['active'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Page specific activation settings'),
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-  );
-  $form['mathjax']['active']['mathjax_active_type'] = array(
-    '#type' => 'radios',
-    '#title' => t('Enable MathJax on specific pages'),
-    '#options' => array('disable' => 'Enable on every page except the listed pages.', 'enable' => 'Enable on the listed pages only.'),
-    '#default_value' => variable_get('mathjax_active_type', 'disable'),
-  );
-  $form['mathjax']['active']['mathjax_pages'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Pages'),
-    '#default_value' => variable_get('mathjax_pages', "admin*\nnode/add/*\nnode/*/edit"),
-    '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.",
-        array(
-          '%blog' => 'blog',
-          '%blog-wildcard' => 'blog/*',
-          '%front' => '<front>',
-        )
-    ),
-  );
-
   return system_settings_form($form);
 }

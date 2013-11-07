@@ -58,3 +58,14 @@ function _mathjax_requirements_isinstalled() {
 
   return $jsp;
 }
+
+/**
+ * Implements hook_update_N().
+ *
+ * Removes deprecated configuration variables.
+ */
+function mathjax_update_7001() {
+  variable_del('mathjax_enabled');
+  variable_del('mathjax_pages');
+  variable_del('mathjax_active_type');
+}
