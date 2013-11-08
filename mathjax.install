@@ -68,4 +68,5 @@ function mathjax_update_7001() {
   variable_del('mathjax_enabled');
   variable_del('mathjax_pages');
   variable_del('mathjax_active_type');
+  variable_set('mathjax_config_type', 1);
 }

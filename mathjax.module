@@ -155,15 +155,30 @@ function mathjax_global_settings() {
   );
   $form['mathjax']['mathjax_cdn_url'] = array(
     '#type' => 'textfield',
-    '#title' => t('MathJax CDN url'),
+    '#title' => t('MathJax CDN URL'),
     '#default_value' => variable_get('mathjax_cdn_url', mathjax_default('cdn url')),
     '#description' => t("Enter the Mathjax CDN url here or leave it unchanged to use the one provided by <a target='_blank' href='@mathjax-homepage'>www.mathjax.org</a>.", array('@mathjax-homepage' => 'http://www.mathjax.org')),
   );
+  $form['mathjax']['mathjax_config_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Configuration Type'),
+    '#options' => array(
+      0 => t('Text Format (Recommended)'),
+      1 => t('Custom'),
+    ),
+    '#default_value' => variable_get('mathjax_config_type', 0),
+    '#description' => t('If you select <strong>Text Format</strong>, MathJax will be available as a text filter. In that case, must add MathJax to a <a href="@textformats">text format</a>.', array('@textformats' => url('admin/config/content/formats'))),
+  );
   $form['mathjax']['mathjax_config_string'] = array(
     '#type' => 'textarea',
-    '#title' => t('MathJax configuration'),
+    '#title' => t('Custom configuration'),
     '#default_value' => variable_get('mathjax_config_string', mathjax_default('config string')),
     '#description' => t("Enter a JavaScript configuration string as documented on  <a target='_blank' href='@mathjax-help'>MathJax help</a>. Use with caution as you may introduce JavaScript errors.", array('@mathjax-help' => 'http://docs.mathjax.org/en/latest/')),
+    '#states' => array(
+      'invisible' => array(
+        ':input[name="mathjax_config_type"]' => array('value' => 0),
+      ),
+    ),
   );
   return system_settings_form($form);
 }
