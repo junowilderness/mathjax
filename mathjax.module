@@ -54,13 +54,17 @@ function mathjax_help($path, $arg) {
  * Implements hook_init().
  */
 function mathjax_init() {
-  global $base_url;
   global $base_path;
-
+  if(variable_get('mathjax_config_type', 0) == 0) {
+    $config_string = mathjax_default('config string');
+  }
+  else {
+    $config_string = variable_get('mathjax_config_string', mathjax_default('config string'));
+  }
   // Load Mathjax.
   $config = array(
     '#type' => 'markup',
-    '#markup' => '<script type="text/x-mathjax-config">' . variable_get('mathjax_config_string', mathjax_default('config string')) . '</script>',
+    '#markup' => '<script type="text/x-mathjax-config">' . $config_string . '</script>',
   );
   drupal_add_html_head($config, 'mathjax-config');
   if (variable_get('mathjax_use_cdn', TRUE)) {
@@ -75,7 +79,7 @@ function mathjax_init() {
     }
     else {
       // Throw an error.
-      drupal_set_message('MathJax is configured to load from a local library, but could not find the files. Check the module settings.', 'error');
+      drupal_set_message('MathJax is configured to load from a local library, but could not find the library files. Check the module settings.', 'error');
     }
   }
 }
@@ -87,7 +91,7 @@ function mathjax_init() {
  */
 function mathjax_filter_info() {
   $filters['filter_mathjax'] = array(
-    'title' => t('MathJax Filter'),
+    'title' => t('MathJax'),
     'description' => t('Mathematics inside the <a href="@url">configured delimiters</a> is rendered by MathJax.', array('@url' => url('admin/config/content/mathjax'))),
     'process callback'  => '_filter_mathjax_process',
     'settings callback' => '_filter_mathjax_settings',
@@ -107,9 +111,9 @@ function _filter_mathjax_process($text, $filter, $format) {
  * Filter tips callback for the mathjax filter.
  */
 function _filter_mathjax_tips($filter, $format, $long = FALSE) {
-  return t('Mathematics inside the <a href="@url">configured delimiters</a> is
+  return t('<span class="tex2jax_ignore">Mathematics inside the <a href="@url">configured delimiters</a> is
     rendered by MathJax. The default math delimiters are $$...$$ and \[...\] for
-    displayed mathematics, and $...$ and \(...\) for in-line mathematics.',
+    displayed mathematics, and $...$ and \(...\) for in-line mathematics.</span>',
       array('@url' => url('admin/config/content/mathjax'))
   );
 }
@@ -163,11 +167,29 @@ function mathjax_global_settings() {
     '#type' => 'radios',
     '#title' => t('Configuration Type'),
     '#options' => array(
-      0 => t('Text Format (Recommended)'),
+      0 => t('Text Format (Recommended&mdash;Add the MathJax filter to a <a href="@textformats">text format</a>.)', 
+          array('@textformats' => url('admin/config/content/formats'))),
       1 => t('Custom'),
     ),
     '#default_value' => variable_get('mathjax_config_type', 0),
-    '#description' => t('If you select <strong>Text Format</strong>, MathJax will be available as a text filter. In that case, must add MathJax to a <a href="@textformats">text format</a>.', array('@textformats' => url('admin/config/content/formats'))),
+  );
+  $form['mathjax']['mathjax_note_default'] = array(
+    '#type' => 'item',
+    '#prefix' => '<span class="tex2jax_ignore">',
+    '#markup' => t('MathJax 
+      will be available as a text filter. Mathematics inside the 
+      default delimiters will be rendered by MathJax. The 
+      default math delimiters are $$...$$ and \[...\] for displayed mathematics,
+      and $...$ and \(...\) for in-line mathematics. <strong>You must add 
+      the MathJax filter to a <a href="@textformats">text format</a> and put 
+      MathJax at the bottom of the filter processing order.</strong>',
+      array('@textformats' => url('admin/config/content/formats'))),
+    '#suffix' => '</span>',
+    '#states' => array(
+      'invisible' => array(
+        ':input[name="mathjax_config_type"]' => array('value' => 1),
+      ),
+    ),
   );
   $form['mathjax']['mathjax_config_string'] = array(
     '#type' => 'textarea',
