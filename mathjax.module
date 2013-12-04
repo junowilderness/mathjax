@@ -96,6 +96,7 @@ function mathjax_filter_info() {
     'process callback'  => '_filter_mathjax_process',
     'settings callback' => '_filter_mathjax_settings',
     'tips callback' => '_filter_mathjax_tips',
+    'weight' => 100,
   );
   return $filters;
 }
