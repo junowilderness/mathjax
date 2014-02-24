@@ -67,6 +67,7 @@ function mathjax_init() {
     '#markup' => '<script type="text/x-mathjax-config">' . $config_string . '</script>',
   );
   drupal_add_html_head($config, 'mathjax-config');
+  drupal_add_js(drupal_get_path('module', 'mathjax') . '/mathjax.js');
   if (variable_get('mathjax_use_cdn', TRUE)) {
     $cdn_url = variable_get('mathjax_cdn_url', mathjax_default('cdn url'));
     drupal_add_js($cdn_url, 'external');
