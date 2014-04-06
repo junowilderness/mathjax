@@ -69,4 +69,19 @@ function mathjax_update_7001() {
   variable_del('mathjax_pages');
   variable_del('mathjax_active_type');
   variable_set('mathjax_config_type', 1);
+  if (!variable_get('mathjax_config_string')) {
+    $str = <<<EOD
+MathJax.Hub.Config({
+  extensions: ['tex2jax.js'],
+  jax: ['input/TeX','output/HTML-CSS'],
+  tex2jax: {
+    inlineMath: [ ['$','$'], ['\\\\(','\\\\)'] ],
+    processEscapes: true
+  },
+  showProcessingMessages: false,
+  messageStyle: 'none'
+});
+EOD;
+    variable_set('mathjax_config_string', $str);
+  }
 }
