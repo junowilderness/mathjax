@@ -16,6 +16,18 @@ text format and put MathJax at the bottom of the filter processing order.
 You may select "Custom" if you need a more specific configuration. "Custom" is
 the default when upgrading.
 
+If you want to emulate the previous behavior with a custom configuration, use
+the following:
+
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$','$'], ['\\(','\\)'] ],
+    processEscapes: true
+  }
+});
+
 INSTALLATION
 ============
 
