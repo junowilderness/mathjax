@@ -5,6 +5,34 @@
  */
 
 /**
+ * Implements hook_permission().
+ */
+function mathjax_permission() {
+  return array(
+    'administer mathjax' => array(
+      'title' => t('Administer MathJax'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function mathjax_menu() {
+
+  $items['admin/config/content/mathjax'] = array(
+    'title' => 'MathJax',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('mathjax_global_settings'),
+    'access arguments' => array('administer mathjax'),
+    'description' => 'Configure global settings for MathJax.',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
  * Default values for MathJax configuration. May be overridden in the config.
  *
  * @param $parameter
@@ -94,8 +122,8 @@ function mathjax_filter_info() {
   $filters['filter_mathjax'] = array(
     'title' => t('MathJax'),
     'description' => t('Mathematics inside the <a href="@url">configured delimiters</a> is rendered by MathJax.', array('@url' => url('admin/config/content/mathjax'))),
-    'process callback'  => '_filter_mathjax_process',
-    'tips callback' => '_filter_mathjax_tips',
+    'process callback'  => 'mathjax_filter_process',
+    'tips callback' => 'mathjax_filter_tips',
     'weight' => 100,
   );
   return $filters;
@@ -104,48 +132,19 @@ function mathjax_filter_info() {
 /**
  * Mathjax filter process callback.
  */
-function _filter_mathjax_process($text, $filter, $format) {
+function mathjax_filter_process($text, $filter, $format) {
   return '<div class="tex2jax">' . $text . '</div>';
 }
 
 /**
  * Filter tips callback for the mathjax filter.
  */
-function _filter_mathjax_tips($filter, $format, $long = FALSE) {
+function mathjax_filter_tips($filter, $format, $long = FALSE) {
   return t('<span class="tex2jax_ignore">Mathematics inside the <a href="@url">configured delimiters</a> is
     rendered by MathJax. The default math delimiters are $$...$$ and \[...\] for
     displayed mathematics, and $...$ and \(...\) for in-line mathematics.</span>',
       array('@url' => url('admin/config/content/mathjax'))
   );
-}
-
-/**
- * Implements hook_permission().
- */
-function mathjax_permission() {
-  return array(
-    'administer mathjax' => array(
-      'title' => t('Administer MathJax'),
-    ),
-  );
-}
-
-
-/**
- * Implements hook_menu().
- */
-function mathjax_menu() {
-
-  $items['admin/config/content/mathjax'] = array(
-    'title' => 'MathJax',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('mathjax_global_settings'),
-    'access arguments' => array('administer mathjax'),
-    'description' => 'Configure global settings for MathJax.',
-    'type' => MENU_NORMAL_ITEM,
-  );
-
-  return $items;
 }
 
 /**
@@ -162,7 +161,7 @@ function mathjax_global_settings() {
     '#type' => 'textfield',
     '#title' => t('MathJax CDN URL'),
     '#default_value' => variable_get('mathjax_cdn_url', mathjax_default('cdn url')),
-    '#description' => t("Enter the Mathjax CDN url here or leave it unchanged to use the one provided by <a target='_blank' href='@mathjax-homepage'>www.mathjax.org</a>.", array('@mathjax-homepage' => 'http://www.mathjax.org')),
+    '#description' => t("Enter the Mathjax CDN url here or leave it unchanged to use the one provided by <a target='_blank' href='@mathjax-homepage'>www.mathjax.org</a>.", array('@mathjax-homepage' => url('http://www.mathjax.org'))),
   );
   $form['mathjax']['mathjax_config_type'] = array(
     '#type' => 'radios',
@@ -196,7 +195,7 @@ function mathjax_global_settings() {
     '#type' => 'textarea',
     '#title' => t('Custom configuration'),
     '#default_value' => variable_get('mathjax_config_string', mathjax_default('config string')),
-    '#description' => t("Enter a JavaScript configuration string as documented on  <a target='_blank' href='@mathjax-help'>MathJax help</a>. Use with caution as you may introduce JavaScript errors.", array('@mathjax-help' => 'http://docs.mathjax.org/en/latest/')),
+    '#description' => t("Enter a JavaScript configuration string as documented on  <a target='_blank' href='@mathjax-help'>MathJax help</a>. Use with caution as you may introduce JavaScript errors.", array('@mathjax-help' => url('http://docs.mathjax.org/en/latest/'))),
     '#states' => array(
       'invisible' => array(
         ':input[name="mathjax_config_type"]' => array('value' => 0),
