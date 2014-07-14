@@ -43,7 +43,7 @@ function mathjax_menu() {
 function mathjax_default($parameter) {
   switch ($parameter) {
     case 'cdn url':
-      return 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+      return 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
     case 'config string':
       return "
 MathJax.Hub.Config({
