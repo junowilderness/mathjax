@@ -100,14 +100,8 @@ function mathjax_init() {
     drupal_add_js($cdn_url, 'external');
   }
   else {
-    // Use the local library.
-    $library = DRUPAL_ROOT . '/' . libraries_get_path('mathjax') . '/MathJax.js';
-    if (file_exists($library)) {
+    if (function_exists('libraries_get_path')) {
       drupal_add_js(libraries_get_path('mathjax', TRUE) . '/MathJax.js?config=TeX-AMS-MML_HTMLorMML', 'external');
-    }
-    else {
-      // Throw an error.
-      drupal_set_message('MathJax is configured to load from a local library, but could not find the library files. Check the module settings.', 'error');
     }
   }
 }
