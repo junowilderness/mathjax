@@ -21,7 +21,7 @@ function mathjax_requirements($phase) {
   $requirements = array();
 
   if ($phase == 'runtime') {
-    if (!variable_get('mathjax_use_cdn')) {
+    if (!variable_get('mathjax_use_cdn', TRUE)) {
       if (!_mathjax_library_present()) {
         $requirements['mathjax_local_libraries'] = array(
           'title' => t('MathJax'),
