@@ -117,7 +117,7 @@ function mathjax_filter_info() {
     'description' => t('Mathematics inside the <a href="@url">configured delimiters</a> is rendered by MathJax.', array('@url' => url('admin/config/content/mathjax'))),
     'process callback'  => 'mathjax_filter_process',
     'tips callback' => 'mathjax_filter_tips',
-    'weight' => 100,
+    'weight' => 50,
   );
   return $filters;
 }
