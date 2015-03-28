@@ -171,13 +171,18 @@ function mathjax_global_settings() {
     '#type' => 'checkbox',
     '#title' => t('Use MathJax Content Delivery Network (CDN)'),
     '#default_value' => variable_get('mathjax_use_cdn', TRUE),
-    '#description' => t('Check this box to load MathJax source from MathJax servers (recommended) or from the link you can provide below.'),
+    '#description' => t('Check this box to load MathJax source from MathJax servers (recommended) or from the link you can provide below. If you do not check this box, see the README about configuring a local MathJax source with the libraries module.'),
   );
   $form['mathjax']['mathjax_cdn_url'] = array(
     '#type' => 'textfield',
     '#title' => t('MathJax CDN URL'),
     '#default_value' => variable_get('mathjax_cdn_url', mathjax_default('cdn url')),
     '#description' => t("Enter the Mathjax CDN url here or leave it unchanged to use the one provided by <a target='_blank' href='@mathjax-homepage'>www.mathjax.org</a>.", array('@mathjax-homepage' => url('http://www.mathjax.org'))),
+    '#states' => array(
+      'invisible' => array(
+        ':input[name="mathjax_use_cdn"]' => array('checked' => FALSE),
+      ),
+    ),
   );
   $form['mathjax']['mathjax_config_type'] = array(
     '#type' => 'radios',
