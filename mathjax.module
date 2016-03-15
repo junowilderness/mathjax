@@ -22,7 +22,7 @@ function mathjax_menu() {
 
   $items['admin/config/content/mathjax'] = array(
     'title' => 'MathJax',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('mathjax_global_settings'),
     'access arguments' => array('administer mathjax'),
     'description' => 'Configure global settings for MathJax.',
