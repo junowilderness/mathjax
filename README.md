@@ -45,7 +45,7 @@ Module written by Thomas Julou.
 
 http://drupal.org/user/273952
 
-MAINTAINER(S)
+CREDITS
 =============
 2013: Chris McCafferty (cilefen) https://drupal.org/u/cilefen
 
