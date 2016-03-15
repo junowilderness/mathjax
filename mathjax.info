@@ -1,5 +1,5 @@
 name = MathJax
-description = Javascript-based LaTeX rendering solution for your Drupal website.
+description = Javascript-based LaTeX rendering solution for your Backdrop website.
 backdrop = 1.x
 type = module
 configure = admin/config/content/mathjax
