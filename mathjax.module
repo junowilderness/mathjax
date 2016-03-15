@@ -82,12 +82,10 @@ function mathjax_help($path, $arg) {
 }
 
 /**
- * Implements hook_page_alter().
+ * Implements hook_init().
  */
-function mathjax_page_alter(&$page) {
-  $module_path = drupal_get_path('module', 'mathjax');
-
-  if (variable_get('mathjax_config_type', 0) == 0) {
+function mathjax_init() {
+  if(variable_get('mathjax_config_type', 0) == 0) {
     $config_string = mathjax_default('config string');
   }
   else {
@@ -98,24 +96,15 @@ function mathjax_page_alter(&$page) {
     '#type' => 'markup',
     '#markup' => '<script type="text/x-mathjax-config">' . $config_string . '</script>',
   );
-  $page['content']['#attached']['drupal_add_html_head'] = array(
-    array($config, 'mathjax-config'),
-  );
-  $page['content']['#attached']['js'][$module_path . '/mathjax.js'] = array(
-    'every_page' => TRUE,
-  );
+  backdrop_add_html_head($config, 'mathjax-config');
+  backdrop_add_js(backdrop_get_path('module', 'mathjax') . '/mathjax.js');
   if (variable_get('mathjax_use_cdn', TRUE)) {
     $cdn_url = variable_get('mathjax_cdn_url', mathjax_default('cdn url'));
-    $page['content']['#attached']['js'][$cdn_url] = array(
-      'type' => 'external',
-    );
+    backdrop_add_js($cdn_url, 'external');
   }
   else {
     if (function_exists('libraries_get_path')) {
-      $library_path = libraries_get_path('mathjax', TRUE) . '/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
-      $page['content']['#attached']['js'][$library_path] = array(
-        'type' => 'external',
-      );
+      backdrop_add_js(libraries_get_path('mathjax', TRUE) . '/MathJax.js?config=TeX-AMS-MML_HTMLorMML', 'external');
     }
   }
 }
