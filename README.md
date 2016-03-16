@@ -30,12 +30,9 @@ Using a local copy of MathJax (relies on libraries module)
 
 3. Install the third-party MathJax software:
      Download MathJax source from the MathJax website.
-     Un-archive it into your "libraries" directory (e.g. sites/all/libraries).
+     Un-archive it into your "libraries" directory.
      You may need to create the "libraries" directory first.
      Rename it to "mathjax" (lower case).
-Relying on the libraries module to locate the 'mathjax' folder allows you to place
-it in a site-specific directory (e.g. sites/mysite/libraries) or in the default directory
-(e.g. sites/all/libraries). Site-specific versions are selected preferentially.
 
 4. Follow from step #2 above.
 
