@@ -34,8 +34,6 @@ Using a local copy of MathJax (relies on libraries module)
      You may need to create the "libraries" directory first.
      Rename it to "mathjax" (lower case).
 
-4. Follow from step #2 above.
-
 ORIGINAL AUTHOR
 ===============
 Module written by Thomas Julou.
