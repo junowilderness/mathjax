@@ -34,15 +34,30 @@ Using a local copy of MathJax (relies on libraries module)
      You may need to create the "libraries" directory first.
      Rename it to "mathjax" (lower case).
 
-ORIGINAL AUTHOR
+Issues
+------
+
+None.
+
+Current Maintainer
+------------------
+
+Roberto Scalas (https://github.com/rhoscalas/)
+
+Original Author
 ===============
 Module written by Thomas Julou.
 
 http://drupal.org/user/273952
 
-CREDITS
+Credits
 =============
 2013: Chris McCafferty (cilefen) https://drupal.org/u/cilefen
 
 2014: P. Magunia (pmagunia) https://www.drupal.org/u/pmagunia
 
+License
+-------
+
+This project is GPL v2 software. See the LICENSE.txt file in this directory for
+complete text.
