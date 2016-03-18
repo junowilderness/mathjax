@@ -4,7 +4,7 @@ Mathjax for Backdrop CMS
 This module integrates the MathJax library into your Backdrop site. MathJax is the
 modern JavaScript-based LaTeX rendering solution for the Internet.
 
-INSTALLATION
+Installation
 ============
 
 Using the MathJax CDN (recommended)
