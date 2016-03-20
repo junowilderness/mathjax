@@ -1,11 +1,11 @@
 Mathjax for Backdrop CMS
-========================
+------------------------
 
 This module integrates the MathJax library into your Backdrop site. MathJax is the
 modern JavaScript-based LaTeX rendering solution for the Internet.
 
 Installation
-============
+------------
 
 Using the MathJax CDN (recommended)
 -------------------------------
@@ -37,7 +37,7 @@ Using a local copy of MathJax (relies on libraries module)
 Issues
 ------
 
-None.
+None
 
 Current Maintainer
 ------------------
@@ -45,13 +45,13 @@ Current Maintainer
 Roberto Scalas (https://github.com/rhoscalas/)
 
 Original Author
-===============
+---------------
 Module written by Thomas Julou.
 
 http://drupal.org/user/273952
 
 Credits
-=============
+-------
 2013: Chris McCafferty (cilefen) https://drupal.org/u/cilefen
 
 2014: P. Magunia (pmagunia) https://www.drupal.org/u/pmagunia
