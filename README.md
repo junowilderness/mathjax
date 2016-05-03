@@ -52,12 +52,13 @@ http://drupal.org/user/273952
 
 Credits
 -------
+MathJax: https://www.mathjax.org
+
 2013: Chris McCafferty (cilefen) https://drupal.org/u/cilefen
 
 2014: P. Magunia (pmagunia) https://www.drupal.org/u/pmagunia
 
 License
 -------
-
 This project is GPL v2 software. See the LICENSE.txt file in this directory for
 complete text.
