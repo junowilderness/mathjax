@@ -42,7 +42,7 @@ None
 Current Maintainer
 ------------------
 
-Roberto Scalas (https://github.com/rhoscalas/)
+Roberto Scalas (https://github.com/rscalas/)
 
 Original Author
 ---------------
